@@ -1,6 +1,31 @@
-# ⚽ AI-Based Football Highlight Detection using Deep Learning
+# ⚽ MatchCut AI
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://matchcut-ai.streamlit.app)
+
+**Live Demo:** [https://matchcut-ai.streamlit.app](https://matchcut-ai.streamlit.app)
+
+**Why wait for the broadcast? AI-Powered Match Highlights in Seconds.**
 
 An end-to-end deep learning pipeline that automatically generates highlight reels from full-length football match videos. The system detects key events — **Goals, Cards, and Substitutions** — using temporal models trained on the [SoccerNet](https://www.soccer-net.org/) dataset, then stitches the best clips into a compact highlight video using a Knapsack optimization algorithm.
+
+---
+
+## 🚀 Quick Start (Streamlit App)
+
+The easiest way to use MatchCut AI is through the local Streamlit dashboard.
+
+1. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. **Download Model Checkpoints:**
+   Ensure `CNN_BiLSTM_best.pth` is placed inside the `checkpoints/` directory.
+3. **Run the App:**
+   ```bash
+   streamlit run app.py
+   ```
+4. **Generate Highlights:**
+   Open the local web URL, upload a `.mp4` football match video, and the AI will automatically extract features and generate a highlight reel!
 
 ---
 
@@ -23,7 +48,7 @@ graph LR
 | Stage | Component | Purpose |
 |---|---|---|
 | **Spatial** | ResNet-152 + PCA | Extracts 2048-dim features, reduced to 512 via PCA (matching SoccerNet's pipeline) |
-| **Temporal** | BiLSTM / Transformer | Understands sequences of frames (is a goal being scored over these 30 frames?) |
+| **Temporal** | BiLSTM | Understands sequences of frames (is a goal being scored over these 30 frames?) |
 | **Selection** | 0/1 Knapsack (DP) | Picks the best combination of events that fits within a time budget |
 | **Output** | MoviePy Stitcher | Cuts and concatenates video clips into the final highlight reel |
 
@@ -53,50 +78,13 @@ Three architectures were trained and compared on the SoccerNet Action Spotting b
 
 ---
 
-## 📁 Repository Structure
-
-```
-Football-Highlights-Detection/
-├── Football_Highlight_Detection.py     # Master source code (all cells)
-├── Highlight_generation_FINAL.ipynb    # Jupyter notebook for Google Colab
-├── HOW_TO_RUN.md                       # Step-by-step execution guide
-├── README.md                           # This file
-├── requirements.txt                    # Python dependencies
-├── .gitignore                          # Git ignore rules
-├── checkpoints/                        # Trained model weights
-│   ├── CNN_Baseline_best.pth           # Baseline model (1.9 MB)
-│   ├── CNN_BiLSTM_best.pth             # Best model (38 MB)
-│   └── CNN_Transformer_best.pth        # Transformer model (51 MB)
-└── results/                            # Training output charts
-    ├── confusion_matrices.png
-    ├── event_timeline.png
-    ├── metrics_summary.json
-    ├── model_comparison.png
-    ├── training_loss_curves.png
-    └── validation_map_curves.png
-```
-
----
-
-## 🚀 Quick Start
-
-See **[HOW_TO_RUN.md](HOW_TO_RUN.md)** for the full step-by-step guide. The short version:
-
-1. Open `Highlight_generation_FINAL.ipynb` in Google Colab (GPU runtime).
-2. Run setup cells (1–7) to install dependencies and define models.
-3. Upload the pre-trained `CNN_BiLSTM_best.pth` checkpoint.
-4. Upload any football match video and run inference.
-5. Download your generated highlight reel.
-
----
-
 ## ⚙️ Technical Details
 
 ### Hyperparameters
 
 | Parameter | Value | Rationale |
 |---|---|---|
-| Feature Dimension | 512 | ResNet-152 (2048-dim) reduced to 512 via PCA — matches SoccerNet training features |
+| Feature Dimension | 512 | ResNet-152 (2048-dim) reduced to 512 via PCA |
 | Sequence Length | 30 frames | 15 seconds of context at 2 FPS |
 | Target FPS | 2 | Standard for SoccerNet temporal analysis |
 | BiLSTM Hidden Size | 256 | Balance between capacity and overfitting |
@@ -104,40 +92,17 @@ See **[HOW_TO_RUN.md](HOW_TO_RUN.md)** for the full step-by-step guide. The shor
 | Learning Rate | 5e-4 | Adam optimizer with ReduceLROnPlateau |
 | Class Weights | Inverse frequency | Handles severe class imbalance (95%+ Background) |
 
-### Dataset
-
-- **Source:** [SoccerNet v2](https://www.soccer-net.org/) — Action Spotting task
-- **Training Subset:** 60 matches (~120 hours of video) from the test split
-- **Limitation:** Full dataset is 500 matches (~1000 hours). Free Colab's 112GB disk limits us to ~60 matches.
-- **Classes:** Goal, Substitution, Cards (Yellow/Red), Background
-
----
-
-## ⚠️ Known Limitations & Future Work
-
-### Domain Shift — RESOLVED ✅
-The SoccerNet dataset provides features extracted with a **ResNet-152 + PCA** pipeline. In our initial version, we used a lightweight ResNet-18 for custom video inference, which created a latent space mismatch. **We resolved this** by upgrading the custom video pipeline to also use **ResNet-152 + PCA (2048→512)**, aligning the feature distributions and significantly improving detection accuracy on arbitrary internet videos.
-
-### Data Scale
-Training on 12% of SoccerNet limits generalization. With full dataset access (requires >200GB disk), mAP could reach 50%+.
-
-### Future Improvements
-- End-to-end training with raw video frames (requires multi-GPU setup)
-- Audio feature integration (crowd noise correlates with goals)
-- Attention-based feature pooling instead of average pooling
-- Multi-scale temporal analysis (short events like cards vs. long events like build-up play)
-
 ---
 
 ## 🛠️ Built With
 
 - **PyTorch** — Deep learning framework
+- **Streamlit** — Web application framework
 - **torchvision** — ResNet feature extraction
 - **MoviePy** — Video editing and stitching
 - **OpenCV** — Frame-level video processing
 - **SoccerNet** — Dataset and evaluation API
 - **scikit-learn** — Metrics (mAP, confusion matrix)
-- **matplotlib / seaborn** — Visualization
 
 ---
 
@@ -147,9 +112,3 @@ Training on 12% of SoccerNet limits generalization. With full dataset access (re
 2. Deliège, A., et al. *"SoccerNet-v2: A Dataset and Benchmarks for Holistic Understanding of Broadcast Soccer Videos."* CVPR Workshops, 2021.
 3. He, K., et al. *"Deep Residual Learning for Image Recognition."* CVPR, 2016.
 4. Apostolidis, E., et al. *"CA-SUM: Combining Attentive and Non-Attentive Summarization."* ECCV, 2022.
-
----
-
-## 📄 License
-
-This project was developed as part of a Deep Learning course at university. For academic use only.
