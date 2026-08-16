@@ -448,7 +448,7 @@ def load_model(checkpoint_path):
 st.markdown("""
 <div class="main-header">
     <h1>⚽ MatchCut AI</h1>
-    <p>AI-Powered Highlight Generation using CNN + Bi-LSTM</p>
+    <p>Temporal action spotting pipeline for football broadcasting. Uses Bi-LSTM on ResNet PCA512 features for end-to-end highlight generation.</p>
 </div>
 """, unsafe_allow_html=True)
 

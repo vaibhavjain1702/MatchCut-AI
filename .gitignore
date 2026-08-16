@@ -31,6 +31,6 @@ Project Documents/
 Main Files/
 *.md
 !README.md
-!NPY_EXTRACTION_GUIDE.md
+!FEATURE_EXTRACTION.md
 Football_Highlight_Detection.py
 *.zip
