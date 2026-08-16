@@ -388,10 +388,7 @@ def generate_highlights(model, features_path, threshold, max_highlight_minutes,
 def stitch_highlight_video(video_path, events, output_path, target_fps=2,
                            progress_cb=None):
     """Cut and merge highlight clips from the source video."""
-    try:
-        from moviepy.editor import VideoFileClip, concatenate_videoclips
-    except ImportError:
-        from moviepy import VideoFileClip, concatenate_videoclips
+    from moviepy import VideoFileClip, concatenate_videoclips
 
     video = VideoFileClip(video_path)
     clips = []
