@@ -3,9 +3,8 @@ torchvision
 numpy
 matplotlib
 scikit-learn
-opencv-python
-moviepy
+opencv-python-headless
+moviepy==2.1.2
 SoccerNet
 Pillow
-gradio
 jupytext
