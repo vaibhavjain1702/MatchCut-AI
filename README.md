@@ -108,6 +108,10 @@ Three architectures were trained and compared on the SoccerNet Action Spotting b
 
 ---
 
+## 📄 Project Report
+
+[Football Highlights Detection using Deep Learning: A Comparative Study of Temporal Architectures (PDF)](docs/Football_Highlights_Detection_Project_Report.pdf)
+
 ## 📜 References
 
 1. Giancola, S., et al. *"SoccerNet: A Scalable Dataset for Action Spotting in Soccer Videos."* CVPR Workshops, 2018.
