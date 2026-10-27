@@ -1,36 +1,27 @@
-# Deep Learning Project - Git Ignore
-# This file prevents large or unnecessary files from being pushed to GitHub
-
-# --- LARGE DATA (REJECTED BY GITHUB > 100MB) ---
-# SoccerNet_subset is 2.1GB - too large for GitHub
+# Large data and datasets
 SoccerNet_subset/
-soccernet_data_backup.zip
-
-# Raw videos are too large (> 100MB)
 Videos/
-Main Files/backup_*.zip
+*.zip
 
-# --- CACHES ---
+# Generated / backup artifacts (never commit)
+backup_*/
+Main Files/
+*.npy
+*.mp4
+!demo_highlights.mp4
+*.pth
+!checkpoints/CNN_BiLSTM_best.pth
+!checkpoints/CNN_Baseline_best.pth
+
+# Local-only
+Project Documents/
+Pictures/
+*viva*
+*VIVA*
+*interview*
+*.pdf
+
+# Caches
 __pycache__/
 *.pyc
 .DS_Store
-
-# --- ALLOWED FILES ---
-# We explicitly allow highlight videos and models under 100MB
-!checkpoints/
-!Main Files/*.mp4
-
-# --- REDUNDANT NOTEBOOKS ---
-Highlight_generation (1).ipynb
-Highlight_generation_FINAL.ipynb
-Highlight_generation_FINAL_Upgraded.ipynb
-Highlight_generation_FINAL_colab.ipynb
-
-# --- LOCAL ONLY FILES ---
-Project Documents/
-Main Files/
-*.md
-!README.md
-!FEATURE_EXTRACTION.md
-Football_Highlight_Detection.py
-*.zip

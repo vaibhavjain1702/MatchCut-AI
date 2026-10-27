@@ -18,14 +18,16 @@ The easiest way to use MatchCut AI is through the local Streamlit dashboard.
    ```bash
    pip install -r requirements.txt
    ```
-2. **Download Model Checkpoints:**
-   Ensure `CNN_BiLSTM_best.pth` is placed inside the `checkpoints/` directory.
+2. **Model Checkpoints:**
+   `checkpoints/CNN_BiLSTM_best.pth` (used by the app) and `checkpoints/CNN_Baseline_best.pth` (baseline for comparison) are included. The Transformer checkpoint is not included; it underperformed (see `results/metrics_summary.json`).
 3. **Run the App:**
    ```bash
    streamlit run app.py
    ```
 4. **Generate Highlights:**
    Open the local web URL, upload a `.mp4` football match video, and the AI will automatically extract features and generate a highlight reel!
+
+`Football_Highlight_Detection.py` is the full training/inference pipeline (Colab-style script); `demo_highlights.mp4` is a sample output highlight reel.
 
 ---
 
